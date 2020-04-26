@@ -38,24 +38,25 @@ namespace simplistic_solution
 	
 	void simplistic_activity_selection(std::vector<s_job> &input)
 	{
-		std::vector<s_job> output;
+		std::vector<s_job> result;
 		std::vector<s_job>::size_type out_idx{0};
 		
 		//step 1: sort vector
 		std::sort(input.begin(), input.end(), compare_jobs);
 		//step 2: choose first element
-		output.push_back(input[out_idx]);
+		result.push_back(input[out_idx]);
 		
 		for(std::vector<s_job>::size_type idx{1}, dim=input.size(); idx<dim; idx++)
 		{
-			if(input[idx].end >= output[out_idx].start)
+			if(input[idx].start >= result[out_idx].end)
 			{
-				output[++out_idx] = input[idx];
+				result.push_back(input[idx]);
+				++out_idx;
 			}
 		}
 		
 		std::cout<<"simplistic implementation result: "<<std::endl;
-		print_jobs(output);
+		print_jobs(result);
 	}
 }
 
@@ -75,7 +76,6 @@ namespace cpp_solution
 	void cpp_activity_selection(vector<pair<unsigned,unsigned>> &jobs)
 	{
 		vector<pair<unsigned,unsigned>> result;
-		vector<pair<unsigned,unsigned>>::size_type result_idx{0};
 		
 		//use own defined lambda greater as compare function for std::sort. By default, it uses < to srt elements ascending
 		auto job_pair_less_compare{[](pair<unsigned,unsigned> x, pair<unsigned,unsigned> y){return x.second<=y.second;}};
@@ -92,10 +92,9 @@ namespace cpp_solution
 		//step 3: iterate over the rest of jobs and chose, at each step, the first in the list whose start time >= end time of previous
 		for(vector<pair<unsigned,unsigned>>::iterator it = jobs.begin(), end = jobs.end(); it!=end; ++it)
 		{
-			if(it->first >= result[result_idx].second)
+			if(it->first >= result.back().second)
 			{
 				result.push_back(*it);
-				++result_idx;
 			}
 		}
 		
@@ -156,10 +155,66 @@ namespace stl_solution
 	}
 }
 
+void line_file_parser(std::vector<simplistic_solution::s_job>& jobs)
+{
+	//file object used for reading
+	std::ifstream file;
+	//open file for reading
+	file.open("activities.txt", std::ios::in);
+	
+	simplistic_solution::s_job job_inst; 
+	//read each line as a sequence of characters and store it in a string object
+	std::string line;
+	while(std::getline(file, line))
+	{
+		//stream of characters which can be treated like a string object
+		std::istringstream iss(line);
+		iss>>job_inst.start>>job_inst.end;
+		jobs.push_back(job_inst);
+	}
+	
+	//close file
+	file.close();
+}
+
+void line_file_parser(std::vector<std::pair<unsigned,unsigned>>& jobs)
+{
+	//file object used for reading
+	std::ifstream file;
+	//open file for reading
+	file.open("activities.txt", std::ios::in);
+	
+	unsigned start, end;
+	//read each line as a sequence of characters and store it in a string object
+	std::string line;
+	while(std::getline(file, line))
+	{
+		//stream of characters which can be treated like a string object
+		std::istringstream iss(line);
+		iss>>start>>end;
+		jobs.push_back(std::make_pair(start, end));
+	}
+	
+	//close file
+	file.close();
+}
+
+
 void activity_selection()
 {
-	std::vector<std::pair<unsigned,unsigned>> jobs{ {5, 8}, {9, 13}, {0, 5}, {1, 2}, {4, 5}, {5, 9}};
 	
+	std::cout<<"simplistic solution: "<<std::endl;
+	std::vector<simplistic_solution::s_job> s_jobs;
+	line_file_parser(s_jobs);
+	simplistic_solution::simplistic_activity_selection(s_jobs);
+	
+	std::vector<std::pair<unsigned,unsigned>> jobs; 
+	line_file_parser(jobs);
+	
+	std::cout<<std::endl<<"cpp solution: "<<std::endl;
 	cpp_solution::cpp_activity_selection(jobs);
+	std::cout<<std::endl<<"stl solution: "<<std::endl;
 	stl_solution::stl_activity_selection(jobs);
+	
+	
 }
