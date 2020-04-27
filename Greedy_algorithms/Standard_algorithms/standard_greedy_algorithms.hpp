@@ -14,4 +14,6 @@
 #include <fstream> //file read, write, open, close
 #include <sstream> //file parsing
 
+//algorithms
 void activity_selection();
+void egyptian_fraction();

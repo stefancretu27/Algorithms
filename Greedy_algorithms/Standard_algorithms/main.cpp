@@ -11,5 +11,6 @@
 
 int main()
 {
-	activity_selection();	
+	//activity_selection();
+	egyptian_fraction();	
 }
