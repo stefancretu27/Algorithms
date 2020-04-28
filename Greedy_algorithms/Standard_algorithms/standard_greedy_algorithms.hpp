@@ -17,3 +17,4 @@
 //algorithms
 void activity_selection();
 void egyptian_fraction();
+void job_sequencing();

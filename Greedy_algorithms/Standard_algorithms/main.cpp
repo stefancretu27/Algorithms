@@ -12,5 +12,6 @@
 int main()
 {
 	//activity_selection();
-	egyptian_fraction();	
+	//egyptian_fraction();
+	job_sequencing();	
 }
