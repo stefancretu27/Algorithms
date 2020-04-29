@@ -12,6 +12,7 @@
 int main()
 {
 	//activity_selection();
-	//egyptian_fraction();
-	job_sequencing();	
+	egyptian_fraction();
+	//job_sequencing();	
+	//job_sequencing_loss_minimization();
 }

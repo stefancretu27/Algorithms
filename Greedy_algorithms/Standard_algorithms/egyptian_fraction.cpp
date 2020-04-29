@@ -1,4 +1,5 @@
 #include "standard_greedy_algorithms.hpp"
+#include <cstdio>
 
 /*
  * Given a fraction (numerator/denominator) it should be wriiten as a sum of unique unit fractions (1/x +1/y +1/z etc)
@@ -16,66 +17,96 @@
 
 using namespace std;
 
-string process_fraction(pair<int,int>& fraction)
+namespace egyptian_fraction_processing
 {
-	if(fraction.second == 0)
+	void read_fractions_by_line(vector<pair<int, int>>& fractions)
 	{
-		return "invalid fraction";
-	}
-	
-	if(fraction.first == 0)
-	{
-		return "numerator is 0";
-	}
-	
-	static string result;
-	//if numerator is divided exactly by denominator (4/2), then it is not a fraction. So return the result of the division. Also, here numerator >denominator (supraunitary)
-	if((fraction.first%fraction.second) == 0)
-	{
-		return to_string(fraction.first/fraction.second);
-	}
-	
-	//if denominator is divided by numerator (2/4), then the fraction can be written as unitary unqie one (1/2). Here, clearly it is a subunitary fraction. Also, this marks the end of recursion
-	if( (fraction.second%fraction.first) == 0)
-	{
-		result += "1/" + to_string(fraction.second/fraction.first);
-		return result;
-	}
-	
-	//if it is a supraunitary fraction, but numerator or denominator do not divide each other, then append the integer part of the division's result and proceed further with the subunitary one
-	if(fraction.first > fraction.second)
-	{
-		int res = fraction.first/fraction.second;
-		result += to_string(res) + " + ";
+		ifstream file;
+		file.open("egyptian_fractions.txt", ios::in);
 		
-		pair<int,int> rest_fraction = make_pair(fraction.first%fraction.second, fraction.second);
-		return process_fraction(rest_fraction);
+		string line;
+		unsigned numerator, denominator;
+		while(getline(file, line))
+		{
+			//treat each line like a stream of characters, instead of string object
+			istringstream iss(line);
+			//parse the stream of characters and read it in appropriate data types
+			iss>>numerator>>denominator;
+			//push the read data into the used data structure
+			fractions.push_back(make_pair(numerator, denominator));
+			cout<<numerator<<"/"<<denominator<<endl;
+		}
+		
+		file.close();
 	}
-	
-	//Once the processing got here, clearly it deals only with subunitary non-dividable fractions
-	
-	//Step 1: reverse input fraction and ceil the result (add 1 to the integer result of division) to obtain the upper bound of the reversed fraction
-	int ceiling = 1 + fraction.second/fraction.first;
-	//Step 2: revert back the input fraction and the ceiling. Thus, the former upper bound becomes a lower bound which has the seeked form of unique unitary fraction (1/ceiling)
-	result += "1/" + to_string(ceiling) + " + ";
-	
-	//Step 3: the lower
-	pair<int, int> remaining_fraction;
-	remaining_fraction.second = fraction.second*ceiling;
-	remaining_fraction.first = fraction.first*ceiling-fraction.second;
-	
-	return process_fraction(remaining_fraction);
+
+	string process_fraction(pair<int,int>& fraction)
+	{
+		if(fraction.second == 0)
+		{
+			return "invalid fraction";
+		}
+		
+		if(fraction.first == 0)
+		{
+			return "numerator is 0";
+		}
+		
+		static string result;
+		//if numerator is divided exactly by denominator (4/2), then it is not a fraction. So return the result of the division. Also, here numerator >denominator (supraunitary)
+		if((fraction.first%fraction.second) == 0)
+		{
+			return to_string(fraction.first/fraction.second);
+		}
+		
+		//if denominator is divided by numerator (2/4), then the fraction can be written as unitary unqie one (1/2). Here, clearly it is a subunitary fraction. Also, this marks the end of recursion
+		if( (fraction.second%fraction.first) == 0)
+		{
+			result += "1/" + to_string(fraction.second/fraction.first) + "\n";
+			return result;
+		}
+		
+		//if it is a supraunitary fraction, but numerator or denominator do not divide each other, then append the integer part of the division's result and proceed further with the subunitary one
+		if(fraction.first > fraction.second)
+		{
+			int res = fraction.first/fraction.second;
+			result += to_string(res) + " + ";
+			
+			pair<int,int> rest_fraction = make_pair(fraction.first%fraction.second, fraction.second);
+			return process_fraction(rest_fraction);
+		}
+		
+		//Once the processing got here, clearly it deals only with subunitary non-dividable fractions
+		
+		//Step 1: reverse input fraction and ceil the result (add 1 to the integer result of division) to obtain the upper bound of the reversed fraction
+		int ceiling = 1 + fraction.second/fraction.first;
+		//Step 2: revert back the input fraction and the ceiling. Thus, the former upper bound becomes a lower bound which has the seeked form of unique unitary fraction (1/ceiling)
+		result += "1/" + to_string(ceiling) + " + ";
+		
+		//Step 3: the lower
+		pair<int, int> remaining_fraction;
+		remaining_fraction.second = fraction.second*ceiling;
+		remaining_fraction.first = fraction.first*ceiling-fraction.second;
+		
+		return process_fraction(remaining_fraction);
+	}
 }
 
 void egyptian_fraction()
 {
-	pair<int,int> fraction;
-	cout<<"numerator: "<<endl;
-	cin>>fraction.first;
-	cout<<"denominator: "<<endl;
-	cin>>fraction.second;
+	std::vector<std::pair<int,int>> fractions;
+	std::vector<std::string> result;
 	
-	cout<<"The fraction is "<<fraction.first<<"/"<<fraction.second<<endl;
+	egyptian_fraction_processing::read_fractions_by_line(fractions);
 	
-	cout<<process_fraction(fraction)<<endl;
+	std::cout<<"Results:"<<endl;
+	for(auto fraction : fractions)
+	{
+		result.push_back(egyptian_fraction_processing::process_fraction(fraction));
+
+	}
+	
+	for(auto res : result)
+		std::cout<<res<<std::endl;
+	
 }

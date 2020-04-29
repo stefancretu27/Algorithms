@@ -18,3 +18,4 @@
 void activity_selection();
 void egyptian_fraction();
 void job_sequencing();
+void job_sequencing_loss_minimization();
