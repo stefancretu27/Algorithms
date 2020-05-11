@@ -13,9 +13,12 @@
 #include <iostream> //console basic input,output
 #include <fstream> //file read, write, open, close
 #include <sstream> //file parsing
+#include <functional> //std::function
+#include <memory>
 
 //algorithms
 void activity_selection();
 void egyptian_fraction();
 void job_sequencing();
 void job_sequencing_loss_minimization();
+void huffman_encoding();

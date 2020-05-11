@@ -77,13 +77,24 @@ namespace cpp_solution
 	{
 		vector<pair<unsigned,unsigned>> result;
 		
-		//use own defined lambda greater as compare function for std::sort. By default, it uses < to srt elements ascending
-		auto job_pair_less_compare{[](pair<unsigned,unsigned> x, pair<unsigned,unsigned> y){return x.second<=y.second;}};
+		//use own defined lambda greater as compare function for std::sort. By default, it uses < to srt elements ascending. 
+		//If the condition evaluates to false, the items are interchanged. In other words, the condition shows the order of elements we want to have in the array after sorting
+		auto job_pair_less_compare{[](pair<unsigned,unsigned> x, pair<unsigned,unsigned> y)
+									{
+										return x.second<=y.second;
+									}
+								  };
 		
+		//just playing around with syntax						  
+		std::function<bool(pair<unsigned,unsigned>, pair<unsigned, unsigned>)> job_pair_greater{ [](pair<unsigned,unsigned> p1, pair<unsigned, unsigned> p2)
+																									{
+																										return p1.second > p2.second;
+																									}			
+																							};											
 		//step 1: sort jobs vector using std::sort which has O(N log N) complexity
 		sort(jobs.begin(), jobs.end(), job_pair_less_compare);
 		
-		std::cout<<"inserted jobs sorted by end time: "<<endl;
+		std::cout<<"inserted jobs sorted by end time in ascending order : "<<endl;
 		print_jobs(jobs);
 		
 		//step 2: choose 1st element in sorted list of jobs
@@ -120,8 +131,9 @@ namespace stl_solution
 	{
 		vector<pair<unsigned,unsigned>> result;
 		
-		//as priority_queue uses less to sort elemnts in descending order, provide own defined lambda to sort in ascending order
-		auto job_pair_greater_compare{[](pair<unsigned,unsigned> x, pair<unsigned,unsigned> y){return x.second>=y.second;}};
+		//as priority_queue uses less to sort elements in descending order, provide own defined lambda to sort in ascending order
+		//if the condition evaluates to true, the items are interchanged
+		auto job_pair_greater_compare{[](pair<unsigned,unsigned> x, pair<unsigned,unsigned> y){return x.second>y.second;}};
 		
 		//template args: type of data in container, container, compare function with data type. As lambda does not bear a data type, use decltype to infer it
 		priority_queue< pair<unsigned, unsigned>, vector<pair<unsigned, unsigned>>, decltype(job_pair_greater_compare)> prio_jobs(job_pair_greater_compare);
@@ -203,7 +215,7 @@ void line_file_parser(std::vector<std::pair<unsigned,unsigned>>& jobs)
 void activity_selection()
 {
 	
-	std::cout<<"simplistic solution: "<<std::endl;
+	std::cout<<"simplistic solution"<<std::endl;
 	std::vector<simplistic_solution::s_job> s_jobs;
 	line_file_parser(s_jobs);
 	simplistic_solution::simplistic_activity_selection(s_jobs);
@@ -211,9 +223,9 @@ void activity_selection()
 	std::vector<std::pair<unsigned,unsigned>> jobs; 
 	line_file_parser(jobs);
 	
-	std::cout<<std::endl<<"cpp solution: "<<std::endl;
+	std::cout<<std::endl<<"cpp solution"<<std::endl;
 	cpp_solution::cpp_activity_selection(jobs);
-	std::cout<<std::endl<<"stl solution: "<<std::endl;
+	std::cout<<std::endl<<"stl solution"<<std::endl;
 	stl_solution::stl_activity_selection(jobs);
 	
 	

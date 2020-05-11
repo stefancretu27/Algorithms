@@ -12,7 +12,8 @@
 int main()
 {
 	//activity_selection();
-	egyptian_fraction();
+	//egyptian_fraction();
 	//job_sequencing();	
 	//job_sequencing_loss_minimization();
+	huffman_encoding();
 }

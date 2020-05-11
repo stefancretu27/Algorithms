@@ -24,7 +24,7 @@ namespace egyptian_fraction_processing
 		ifstream file;
 		file.open("egyptian_fractions.txt", ios::in);
 		
-		string line;
+		string line{};
 		unsigned numerator, denominator;
 		while(getline(file, line))
 		{
@@ -34,7 +34,7 @@ namespace egyptian_fraction_processing
 			iss>>numerator>>denominator;
 			//push the read data into the used data structure
 			fractions.push_back(make_pair(numerator, denominator));
-			cout<<numerator<<"/"<<denominator<<endl;
+			cout<<numerator<<"/"<<denominator<<"  ";
 		}
 		
 		file.close();
@@ -52,7 +52,8 @@ namespace egyptian_fraction_processing
 			return "numerator is 0";
 		}
 		
-		static string result;
+		static string result = std::string();
+		
 		//if numerator is divided exactly by denominator (4/2), then it is not a fraction. So return the result of the division. Also, here numerator >denominator (supraunitary)
 		if((fraction.first%fraction.second) == 0)
 		{
@@ -62,7 +63,8 @@ namespace egyptian_fraction_processing
 		//if denominator is divided by numerator (2/4), then the fraction can be written as unitary unqie one (1/2). Here, clearly it is a subunitary fraction. Also, this marks the end of recursion
 		if( (fraction.second%fraction.first) == 0)
 		{
-			result += "1/" + to_string(fraction.second/fraction.first) + "\n";
+			cout<<"result: "<<result<<" "<<fraction.second<<" "<<fraction.first<<endl;
+			result += "!~ 1/" + to_string(fraction.second/fraction.first) + "\n";
 			return result;
 		}
 		
@@ -70,7 +72,7 @@ namespace egyptian_fraction_processing
 		if(fraction.first > fraction.second)
 		{
 			int res = fraction.first/fraction.second;
-			result += to_string(res) + " + ";
+			result += "@~" + to_string(res) + " + ";
 			
 			pair<int,int> rest_fraction = make_pair(fraction.first%fraction.second, fraction.second);
 			return process_fraction(rest_fraction);
@@ -81,7 +83,7 @@ namespace egyptian_fraction_processing
 		//Step 1: reverse input fraction and ceil the result (add 1 to the integer result of division) to obtain the upper bound of the reversed fraction
 		int ceiling = 1 + fraction.second/fraction.first;
 		//Step 2: revert back the input fraction and the ceiling. Thus, the former upper bound becomes a lower bound which has the seeked form of unique unitary fraction (1/ceiling)
-		result += "1/" + to_string(ceiling) + " + ";
+		result += "#~ 1/" + to_string(ceiling) + " + ";
 		
 		//Step 3: the lower
 		pair<int, int> remaining_fraction;
@@ -99,14 +101,14 @@ void egyptian_fraction()
 	
 	egyptian_fraction_processing::read_fractions_by_line(fractions);
 	
-	std::cout<<"Results:"<<endl;
-	for(auto fraction : fractions)
+	std::cout<<std::endl<<"Results:"<<std::endl;
+	for(auto it = fractions.begin(), end = fractions.end(); it!=end; ++it)
 	{
-		result.push_back(egyptian_fraction_processing::process_fraction(fraction));
+		//std::cout<<it->first<<"/"<<it->second<<" : "<<egyptian_fraction_processing::process_fraction(*it)<<std::endl;
 
 	}
 	
-	for(auto res : result)
-		std::cout<<res<<std::endl;
+	//for(auto res : result)
+	//	std::cout<<res<<std::endl;
 	
 }
