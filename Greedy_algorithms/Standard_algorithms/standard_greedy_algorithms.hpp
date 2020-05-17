@@ -14,7 +14,7 @@
 #include <fstream> //file read, write, open, close
 #include <sstream> //file parsing
 #include <functional> //std::function
-#include <memory>
+#include <memory> //shared_ptr
 
 //algorithms
 void activity_selection();
@@ -22,3 +22,4 @@ void egyptian_fraction();
 void job_sequencing();
 void job_sequencing_loss_minimization();
 void huffman_encoding();
+void huffman_encoding_sorted_input();

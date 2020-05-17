@@ -18,29 +18,29 @@
  * the vector. It shows the bit sequence encoding for that character
  */ 
 
-namespace huffman_encode
+namespace huffman_encode_sortedInput
 {
 	using namespace std;
 	
-	typedef struct MinHeapNode
+	typedef struct TreeNode
 	{
 		char character;
 		unsigned frequency;
-		shared_ptr<MinHeapNode> left, right;
+		shared_ptr<TreeNode> left, right;
 		
-		MinHeapNode(const char& c, const unsigned& u)
+		TreeNode(const char& c, const unsigned& u)
 		{
 			character = c;
 			frequency = u;
 			left = right = nullptr;
 		};
 		
-	}MinHeapNode;
+	}TreeNode;
 
 	void read_input_by_line(std::vector<std::pair<char, unsigned>>& input)
 	{
 		ifstream file;
-		file.open("huffman_encoding.txt", ios::in);
+		file.open("huffman_encoding_sorted_input.txt", ios::in);
 		
 		string line;
 		char character;
@@ -59,7 +59,7 @@ namespace huffman_encode
 		file.close();
 	}
 	
-	void printTreePreorder(const shared_ptr<MinHeapNode>& root)
+	void printTreePreorder(const shared_ptr<TreeNode>& root)
 	{
 		if(root == nullptr)
 			return;
@@ -69,7 +69,7 @@ namespace huffman_encode
 		printTreePreorder(root->right);
 	}
 	
-	void generateCodesPreorder(const shared_ptr<MinHeapNode>& root, const string& bits, vector<pair<char, string>>& result)
+	void generateCodesPreorder(const shared_ptr<TreeNode>& root, const string& bits, vector<pair<char, string>>& result)
 	{
 		if(root == nullptr)
 			return;
@@ -82,72 +82,112 @@ namespace huffman_encode
 		generateCodesPreorder(root->left, bits + "0", result);
 		generateCodesPreorder(root->right, bits + "1", result);
 	}
+	
+	shared_ptr<TreeNode> extractMinNode(queue<shared_ptr<TreeNode>>& queue1, queue<shared_ptr<TreeNode>>& queue2)
+	{	
+		shared_ptr<TreeNode> returnNode;
+		
+		if(queue1.empty())
+		{
+			if(queue2.empty())
+				return nullptr;
+			else
+			{
+				returnNode = queue2.front();
+				queue2.pop();
+				return returnNode;
+			}
+		}
+		
+		if(queue2.empty())
+		{
+			if(queue1.empty())
+				return nullptr;
+			else
+			{
+				returnNode = queue1.front();
+				queue1.pop();
+				return returnNode;
+			}
+		}
+		
+		if(queue1.front()->frequency < queue2.front()->frequency)
+		{
+			returnNode = queue1.front();
+			queue1.pop();
+			return returnNode;
+		}
+		else
+		{
+			returnNode = queue2.front();
+			queue2.pop();
+			return returnNode;
+		}
+		
+	}
 
 	void process_input(std::vector<std::pair<char, unsigned>>& input, vector<pair<char, string>>& result)
 	{
-		//Step 1: organize input data in a priority queue that sorts data in ascending order, by frequency
-		//if the condition evaluates to true, the items are interchanged
-		auto compare_ascending { [](const shared_ptr<MinHeapNode>& item1, const shared_ptr<MinHeapNode>& item2) 
-							{ 	
-								return item1->frequency > item2->frequency;
-							} 
-						  };
-						  
-		std::priority_queue<shared_ptr<MinHeapNode>, std::vector<shared_ptr<MinHeapNode>>, decltype(compare_ascending)> minHeap(compare_ascending);
+		queue<shared_ptr<TreeNode>> queue1, queue2;
 		
+		/*
+		 * Step 1: for each element in the input data, dynamically freate a TreeNode and add it to queue 1
+		 */ 
 		for(size_t idx = 0, dim = input.size(); idx < dim; ++idx)
 		{
 			//create the nodes dynamically in order to store the nodes in heap memory segment for persistency reasons
-			minHeap.push(make_shared<MinHeapNode>(get<0>(input[idx]), get<1>(input[idx])));
+			queue1.push(make_shared<TreeNode>(input[idx].first, input[idx].second));
 		}
 		
 		/*
 		 * Step 2: build the Huffman tree
 		 * 		 - extract first 2 nodes and create a new node whose frequency is the sum of the frequencies of the extracted nodes. 
-		 * 		 - the extracted nodes are added as children to the newly created node. The new node is added to minHeap.
-		 * 		 - the process is repeated as long as minHeap has at lea 2 elements.
+		 * 		 - the extracted nodes are added as children to the newly created node. The new node is added to the queue 2.
+		 * 		 - the process stops when queue 1 is empty and queue2 contains one node.
+		 * 		 - the extracted nodes are min(queue1.front, queue2.front)
 		 * 
 		 * As the nodes are removed from minHeap, they should persist in memory as they are used in tree traversal afterwards
 		 * Hence, the necessity of storing pointers to node in minHeap and to dynamically allocate them in heap segment.
 		 */ 
 		
-		shared_ptr<MinHeapNode> firstNode, secondNode, newNode;
+		shared_ptr<TreeNode> firstNode, secondNode, newNode;
 		
-		while(minHeap.size() > 1)
+		while(queue1.size()>0)
 		{
 			//extract the first node by storing its data into an auxiliary created node and then remove it
-			firstNode = minHeap.top();
-			//remove first node
-			minHeap.pop();
-			
+			firstNode = extractMinNode(queue1, queue2);
+
 			//extract the second node by storing its data into an auxiliary created node and then remove it
-			secondNode = minHeap.top();
-			//remove second node
-			minHeap.pop();
+			secondNode = extractMinNode(queue1, queue2);
 			
-			//create new node from the new first node (that is the secondly extracted node) and the 
-			newNode = make_shared<MinHeapNode>(' ', firstNode->frequency + secondNode->frequency);
+			if(firstNode==nullptr || secondNode==nullptr)
+				break;
+
+			//create new node from the new first node (that is the secondly extracted node) 
+			newNode = make_shared<TreeNode>(' ', firstNode->frequency + secondNode->frequency);
 			newNode->left = firstNode;
 			newNode->right = secondNode;
 			
-			//add the newly created node to minHeap
-			//when there are only two nodes left, this new node is the root node of the tree and the loop ends. Also, it will be the only node in minHeap
-			minHeap.push(newNode);
+			//add the newly created node to queue2
+			queue2.push(newNode);
+			//break if queue 2 has only one element
+			if(queue1.size()==0 && queue2.size()==1)
+				break;
 		}
 		
-		//Step 3: generate codes by DFS-traversing the Huffman tree processed baove
-		generateCodesPreorder(minHeap.top(), "", result);
+		//Step 3: generate codes by DFS-traversing the Huffman tree processed above. The only node left in queue2 is the tree;s root node
+		generateCodesPreorder(queue2.front(), "", result);
 	}
 }
 
-void huffman_encoding()
+void huffman_encoding_sorted_input()
 {
 	std::vector<std::pair<char, unsigned>> input;
 	
-	huffman_encode::read_input_by_line(input);
+	huffman_encode_sortedInput::read_input_by_line(input);
 
 	std::vector<std::pair<char, std::string>> result;
-	huffman_encode::process_input(input, result);
+	huffman_encode_sortedInput::process_input(input, result);
 	
 	std::cout<<"inserted character    	Huffman encoding"<<std::endl;
 	for(auto it = result.cbegin(), end = result.cend(); it!=end; ++it)

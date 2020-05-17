@@ -79,7 +79,7 @@ namespace cpp_solution
 		
 		//use own defined lambda greater as compare function for std::sort. By default, it uses < to srt elements ascending. 
 		//If the condition evaluates to false, the items are interchanged. In other words, the condition shows the order of elements we want to have in the array after sorting
-		auto job_pair_less_compare{[](pair<unsigned,unsigned> x, pair<unsigned,unsigned> y)
+		auto job_pair_less_compare{[](pair<unsigned,unsigned>& x, pair<unsigned,unsigned>& y)
 									{
 										return x.second<=y.second;
 									}
@@ -133,7 +133,7 @@ namespace stl_solution
 		
 		//as priority_queue uses less to sort elements in descending order, provide own defined lambda to sort in ascending order
 		//if the condition evaluates to true, the items are interchanged
-		auto job_pair_greater_compare{[](pair<unsigned,unsigned> x, pair<unsigned,unsigned> y){return x.second>y.second;}};
+		auto job_pair_greater_compare{[](pair<unsigned,unsigned>& x, pair<unsigned,unsigned>& y){return x.second>y.second;}};
 		
 		//template args: type of data in container, container, compare function with data type. As lambda does not bear a data type, use decltype to infer it
 		priority_queue< pair<unsigned, unsigned>, vector<pair<unsigned, unsigned>>, decltype(job_pair_greater_compare)> prio_jobs(job_pair_greater_compare);

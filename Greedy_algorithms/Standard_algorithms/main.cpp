@@ -11,9 +11,16 @@
 
 int main()
 {
+	std::cout<<std::endl<<"--------Activity selection. Tip: sort in descending order by end time. Then next chosen job has its start time greater than the last selected job end time--------"<<std::endl;
 	//activity_selection();
+	std::cout<<std::endl<<"--------Egyptian fraction. Tip: reverse fraction (so it becomes supraunitary) and ceil it (take next integer). Reverse the ceiling so 1/ceiling is obtained--------"<<std::endl;
 	//egyptian_fraction();
-	//job_sequencing();	
+	std::cout<<std::endl<<"--------Job sequencing. Tip: sort in descending order by profit. Then use an array of time_slots and consider deadline value as vector index to check for free slots--------"<<std::endl;
+	//job_sequencing();
+	std::cout<<std::endl<<"--------Job sequencing with loss minimization. Tip: sort in descending order by Loss/Time fraction--------"<<std::endl;	
 	//job_sequencing_loss_minimization();
+	std::cout<<std::endl<<"--------Huffman encoding--------"<<std::endl;
 	huffman_encoding();
+	std::cout<<std::endl<<"--------Huffman encoding for sorted input. Same data as above is used, so same output is expected--------"<<std::endl;
+	huffman_encoding_sorted_input();
 }
