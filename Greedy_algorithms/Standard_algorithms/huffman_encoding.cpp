@@ -1,6 +1,7 @@
 #include "standard_greedy_algorithms.hpp"
 
 /*
+ * Huffman encoding
  * Problem description: Given a set of characters alongside their frequencies of occurrence in some text, it is aimed at finding a non-ambiguous coding that maps each character to a unque sequence of bits.
  * 						The characters with lower occurrence rates are encoded to longer bit sequences, when compared to characters that have higher frequency rate.
  * 
@@ -11,16 +12,31 @@
  * 			  	- untill this queue contains one node, take the first two nodes and create a new node from them, whose frequency is the sum of the extracted nodes. The first extracted nodes becomes the left child of the
  * 	newly created nodes, whereas the second extracted node becomes the right child. Thus, nodes with lower frequencies can be found on the left side of the tree.
  * 				- when only one node is contained in the priority_queue, then the tree is completely built, as it is the sum of the previously extracted 2 nodes and it has these nodes already set as its children.
+ * 				- is the initially created nodes (those containing the input characters) are poped and added as children to the newly created nodes, at the end they will all be leaf nodes in the HUffman tree 
  *           
  * 			 Step 3 (assign codes): Once the binary tree is built, traverse it in preorder: check root if it has a character stored, then recursively do the same for left child, then for right child 
  * (root->left->right approach)
  * 				- maintain an auxiliary array. When traversing a left node, push 0 to this vector, and push 1 when traversing a right node. If the node contains a character, print the character and the values stored in
  * the vector. It shows the bit sequence encoding for that character
+ * 
+ * Huffman decoding
+ * Problem description: given a sequence of bits and the afferent Huffman tree, decode the text which is encoded by the gien bit sequence
+ * 
+ * Approach: Start from the root of the tree (stored in a local variable)
+ * 			 Then, for each value in the bit sequence, check if it is 0 or 1. If 0, then go to left child , if 1 go the right child. Recall all characters are only stored in leaf nodes.
+ * 			 If a leaf node is reached (both children are null), the current node use for tree traversial is reset to root. Also, the character contained by the node is appended to answer.
  */ 
 
-namespace huffman_encode
+namespace huffman
 {
 	using namespace std;
+	
+	enum class TreeLeaf
+	{	
+		NONE,
+		LEFT,
+		RIGHT
+	};
 	
 	typedef struct MinHeapNode
 	{
@@ -69,7 +85,7 @@ namespace huffman_encode
 		printTreePreorder(root->right);
 	}
 	
-	void generateCodesPreorder(const shared_ptr<MinHeapNode>& root, const string& bits, vector<pair<char, string>>& result)
+	void encodePreorder(const shared_ptr<MinHeapNode>& root, const string& bits, vector<pair<char, string>>& result)
 	{
 		if(root == nullptr)
 			return;
@@ -79,11 +95,38 @@ namespace huffman_encode
 			//cout<<"inserted character: "<<root->character<<"  Huffman encoding: "<<bits<<endl;
 			result.push_back(make_pair(root->character, bits));
 		}
-		generateCodesPreorder(root->left, bits + "0", result);
-		generateCodesPreorder(root->right, bits + "1", result);
+		encodePreorder(root->left, bits+"0", result);
+		encodePreorder(root->right, bits+"1", result);
+	}
+	
+	void decode(const shared_ptr<MinHeapNode>& root, const string& bit_seq, string &result)
+	{
+		shared_ptr<MinHeapNode> current_node = root;
+		
+		cout<<current_node->frequency<<" "<<bit_seq.size()<<endl;
+		
+		for(size_t idx{0}, dim = bit_seq.size(); idx < dim; ++idx)
+		{
+			if(bit_seq[idx] == '0')
+			{
+				current_node = current_node->left;
+			}
+			else
+			{
+				current_node = current_node->right;
+			}
+			
+			//check if leaf node
+			if(current_node->left == nullptr && current_node->right==nullptr)
+			{
+				result.push_back(current_node->character);
+				//reset current node, so next iteration starts from the root
+				current_node = root;
+			}
+		}
 	}
 
-	void process_input(std::vector<std::pair<char, unsigned>>& input, vector<pair<char, string>>& result)
+	void encode_decode(std::vector<std::pair<char, unsigned>>& input, vector<pair<char, string>>& encode_result, string& decoding_result)
 	{
 		//Step 1: organize input data in a priority queue that sorts data in ascending order, by frequency
 		//if the condition evaluates to true, the items are interchanged
@@ -135,23 +178,36 @@ namespace huffman_encode
 			minHeap.push(newNode);
 		}
 		
-		//Step 3: generate codes by DFS-traversing the Huffman tree processed baove
-		generateCodesPreorder(minHeap.top(), "", result);
+		//Step 3: generate codes by DFS-traversing the Huffman tree processed above
+		string bit_seq{};
+		encodePreorder(minHeap.top(), bit_seq, encode_result);
+		
+		for(auto it = encode_result.cbegin(), end = encode_result.cend(); it!=end; ++it)
+		{
+			bit_seq.append(it->second);
+		}
+		
+		decode(minHeap.top(), bit_seq, decoding_result);
 	}
 }
 
-void huffman_encoding()
+void huffman_encoding_and_decoding()
 {
 	std::vector<std::pair<char, unsigned>> input;
 	
-	huffman_encode::read_input_by_line(input);
+	huffman::read_input_by_line(input);
 
-	std::vector<std::pair<char, std::string>> result;
-	huffman_encode::process_input(input, result);
+	std::vector<std::pair<char, std::string>> encoding_result;
+	std::string decoding_result;
+	huffman::encode_decode(input, encoding_result, decoding_result);
 	
 	std::cout<<"inserted character    	Huffman encoding"<<std::endl;
-	for(auto it = result.cbegin(), end = result.cend(); it!=end; ++it)
+	for(auto it = encoding_result.cbegin(), end = encoding_result.cend(); it!=end; ++it)
 	{
 		std::cout<<"	"<<it->first<<"			"<<it->second<<std::endl;
 	}
+	
+	std::cout<<"Huffman decoding"<<std::endl;
+	std::cout<<decoding_result<<std::endl;
+
 }

@@ -21,5 +21,5 @@ void activity_selection();
 void egyptian_fraction();
 void job_sequencing();
 void job_sequencing_loss_minimization();
-void huffman_encoding();
+void huffman_encoding_and_decoding();
 void huffman_encoding_sorted_input();
