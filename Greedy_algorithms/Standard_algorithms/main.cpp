@@ -20,7 +20,8 @@ int main()
 	std::cout<<std::endl<<"--------Job sequencing with loss minimization. Tip: sort in descending order by Loss/Time fraction--------"<<std::endl;	
 	//job_sequencing_loss_minimization();
 	std::cout<<std::endl<<"--------Huffman encoding and decoding--------"<<std::endl;
-	huffman_encoding_and_decoding();
+	//huffman_encoding_and_decoding();
 	std::cout<<std::endl<<"--------Huffman encoding for sorted input. Same data as above is used, so same output is expected--------"<<std::endl;
-	huffman_encoding_sorted_input();
+	//huffman_encoding_sorted_input();
+	brackets_swapping();
 }

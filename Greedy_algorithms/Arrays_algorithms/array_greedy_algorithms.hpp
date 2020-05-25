@@ -15,12 +15,9 @@
 #include <sstream> //file parsing
 #include <functional> //std::function
 #include <memory> //shared_ptr
+#include <limits> //INT_MIN
 
 //algorithms
-void activity_selection();
-void egyptian_fraction();
-void job_sequencing();
-void job_sequencing_loss_minimization();
-void huffman_encoding_and_decoding();
-void huffman_encoding_sorted_input();
-void brackets_swapping();
+void min_product_subset();
+void max_product_subset();
+
