@@ -89,7 +89,6 @@ namespace max_prod
 				product = product/max_negative;
 			}
 			
-			cout<<product<<endl;
 			products.push_back(product);
 		}
 	}
@@ -113,5 +112,5 @@ void max_product_subset()
 
 	max_prod::compute_product(input_vectors, result);
 	
-	//max_prod::print_products(result);
+	max_prod::print_products(result);
 }

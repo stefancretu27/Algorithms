@@ -15,4 +15,6 @@ int main()
 	min_product_subset();
 	std::cout<<std::endl<<"--------Max product subset. Tip: Think of how input values might look like: all negatives, all zeroes, all positives, a mix of any from the previous etc--------"<<std::endl;
 	max_product_subset();
+	std::cout<<std::endl<<"--------Max sum after k negations. Tip: negate first k minimum elements => sort in ascending order/use priority queue etc--------"<<std::endl;
+	max_sum_k_negations();
 }
