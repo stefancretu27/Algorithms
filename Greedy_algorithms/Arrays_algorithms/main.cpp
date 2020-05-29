@@ -17,4 +17,6 @@ int main()
 	max_product_subset();
 	std::cout<<std::endl<<"--------Max sum after k negations. Tip: negate first k minimum elements => sort in ascending order/use priority queue etc--------"<<std::endl;
 	max_sum_k_negations();
+	std::cout<<std::endl<<"--------Max sum arr[index]*index. Tip: as the array's index increases in value, it should be multilied with the greater values in array => sort array in ascending order --------"<<std::endl;
+	max_sum_elementMultipliedWithIndex();
 }
