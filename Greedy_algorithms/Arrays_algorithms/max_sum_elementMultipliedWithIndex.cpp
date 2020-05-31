@@ -2,7 +2,8 @@
 
 /*
  * Problem description: Given an array of N integer values it is aimed to find the maximum possible sum thay can be obtained when multiplying each array element with its index
- * Approach: As the array's index is increasing, in order to maximize the result, it should be multiplied with the highest values in array. Thus, sort the array in ascending order and compute the sum of products.
+ * Approach: As the array's index is increasing, in order to maximize the result, it should be multiplied with the highest values in array. 
+ * 			Thus, the Greedy approach comes from the need to sort the array in ascending order and compute the sum of products.
  */ 
 
 namespace maxSumElemIndex
