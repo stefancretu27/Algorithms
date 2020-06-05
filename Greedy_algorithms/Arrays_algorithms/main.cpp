@@ -19,6 +19,8 @@ int main()
 	max_sum_k_negations();
 	std::cout<<std::endl<<"--------Max sum arr[index]*index. Tip: as the array's index increases in value, it should be multilied with the greater values in array => sort array in ascending order --------"<<std::endl;
 	max_sum_elementMultipliedWithIndex();
-	std::cout<<std::endl<<"--------Max sum of increasing order elements from M arrays Tip: start with last array. If started with max value from 1st array, very possible not to reach the last vector --------"<<std::endl;
+	std::cout<<std::endl<<"--------Max sum of increasing order elements from M arrays. Tip: start with last array. If started with max value from 1st array, very possible not to reach the last vector --------"<<std::endl;
 	maxSum_increasingOrderElementsFromNArrays();
+	std::cout<<std::endl<<"--------Max sum of absolute differences of consecutive elements in circular array. Tip:Max differences is obtained if min and max elements are interleaved (a0 an a1 an-1 etc) --------"<<std::endl;
+	maxSum_absoluteDifferencesOfConsecutiveElements();
 }

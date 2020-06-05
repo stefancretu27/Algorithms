@@ -1,7 +1,10 @@
 #include "array_greedy_algorithms.hpp"
 
-/*
- * Problem description: Given an array of N integer values it is aimed to find the maximum possible sum thay can be obtained when adding all array elements after k of them are negated. 0<k<N.
+/* Maximize array sum after k-negations
+ * 
+ * Problem description: Given an array of N integer values it is aimed to find the maximum possible sum thay can be obtained when adding all array elements after k of them are negated. 
+ * 						Here, k is an integer such that 0<k<N.
+ * 
  * Approach: As the array's element can have negative, positive and zero values, the maximum sum can be obtained if the first minimum k elements are negated. Concretely, the zeroes will stay as they are while
  * 			the negative numbers are turned positive. If the number of negatives is < k, then the zeroes are considered. If still k values were not reached, then the smallest positives are turned negative.
  */ 
@@ -47,6 +50,7 @@ namespace maxSumKNeg
 
 	void compute_max_sum(vector<pair<vector<int>, unsigned>>& input_vectors, vector<pair<int, unsigned>>& sums)
 	{
+		//Perform algorithm for multiple input vectors
 		for(auto& vec_pair : input_vectors)
 		{
 			unsigned k = vec_pair.second;
@@ -61,17 +65,20 @@ namespace maxSumKNeg
 			for(int elem : vec_pair.first)
 				prio_queue.push(elem);
 			
+			//Step 2: compute sum. Firstly, substract first k elements in order to negate them
 			for(unsigned idx = 0; idx <k; ++idx)
 			{
 				sum -= prio_queue.top();
 				prio_queue.pop();
 			}
+			//then, add next n-k elements
 			for(unsigned idx = k, dim = vec_pair.first.size(); idx < dim; ++idx)
 			{
 				sum += prio_queue.top();
 				prio_queue.pop();
 			}
 			
+			//Store result for the currently processed input vector. Also, store its afferent k value
 			sums.push_back(make_pair(sum, k));
 		}
 	}

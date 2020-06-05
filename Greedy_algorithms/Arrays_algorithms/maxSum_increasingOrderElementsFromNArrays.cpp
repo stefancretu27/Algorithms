@@ -1,8 +1,10 @@
 #include "array_greedy_algorithms.hpp"
 
-/*
+/* Maximum sum of increasing order elements from n arrays
+ * 
  * Problem description: Given M arrays with N integers each, it is aimed to find the maximum possible sum that can be computed by selecting one item from each array, 
  * 						with i-th element being greater than the i-1 th element.
+ * 
  * Approach: The Greedy approach makes use of seelcting max possible value from each vector. For this, there can be 2 strategies:
  * 				 - sort each vector. If sorted ascending, take maximum for last, then reverse iterate over the next ones, starting with seocnd last vector, and find first value smaller than previously selected one
  *               - compute maximum for each vector. When finding a max for a given vector, but the 1st, it should be verified if the newly found max value is greater than i-1 th, or smaller than i+1 th

@@ -1,9 +1,11 @@
 #include "array_greedy_algorithms.hpp"
 
-/*
+/* Maximize the sum of arr[i]*i
+ * 
  * Problem description: Given an array of N integer values it is aimed to find the maximum possible sum thay can be obtained when multiplying each array element with its index
+ * 
  * Approach: As the array's index is increasing, in order to maximize the result, it should be multiplied with the highest values in array. 
- * 			Thus, the Greedy approach comes from the need to sort the array in ascending order and compute the sum of products.
+ * 			 Thus, the Greedy approach comes from the need to sort the array in ascending order and compute the sum of products.
  */ 
 
 namespace maxSumElemIndex
@@ -45,6 +47,7 @@ namespace maxSumElemIndex
 
 	void compute_max_sum(vector<vector<int>>& input_vectors, vector<int>& sums)
 	{
+		//Perform algorithm for multiple input vectors
 		for(auto& vec : input_vectors)
 		{
 			int sum = 0;
@@ -55,11 +58,13 @@ namespace maxSumElemIndex
 			
 			sort(vec.begin(), vec.end(), cmp_less);
 			
+			//Step 2: compute sum of products
 			for(size_t idx{0}, dim = vec.size(); idx<dim; ++idx)
 			{
 				sum += vec[idx]*idx;
 			}
 			
+			//Store result for the currently processed input vector
 			sums.push_back(sum);
 		}
 	}

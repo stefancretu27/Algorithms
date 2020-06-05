@@ -1,8 +1,10 @@
 #include "array_greedy_algorithms.hpp"
 
-/*
+/* Maximum product subset of an array
+ * 
  * Problem description: Given an array of integer values it is aimed to find the maximum possible product that can be obtained by multiplying the values in any subset of the input array.
  * 						Here the subset cand be the array itself or a single element, or any subset whose size ranges in between these 2 cases.
+ * 
  * Approach: There is looked at particular cases of the input array:
  * 						- if it contains only zeroes, or one negataive and the rest are zeroes, the result is 0. The zeroes are skipped from computing the product
  * 						- if it contains an odd number of negatives, the result would be the multiplication of all values divided by the largest negative value
@@ -46,12 +48,13 @@ namespace max_prod
 
 	void compute_product(const vector<vector<int>>& input_vectors, vector<int>& products)
 	{
+		//Perform algorithm for multiple input vectors
 		for(const auto& vec : input_vectors)
 		{
 			size_t count_zeroes = 0, count_negatives = 0;
 			int product = 1, max_negative = numeric_limits<int>::min();
 
-			//Step 1: iterate over the input array
+			//Step 1: iterate over the input array and compute product while skipping zeroes. Also, keep track of zeroes count and negatives count
 			for(vector<int>::const_iterator val = vec.cbegin(), dim = vec.cend(); val!=dim; ++val)
 			{
 				//when a 0 is met, skip it and increment counter
@@ -73,6 +76,7 @@ namespace max_prod
 				product *= *val;
 			}
 			
+			//Step 2: check zeroes and negatives counts and return appropiate result
 			//if all values are 0, result is 0
 			if(count_zeroes == vec.size())
 			{
@@ -89,6 +93,7 @@ namespace max_prod
 				product = product/max_negative;
 			}
 			
+			//Store result for the currently processed input vector
 			products.push_back(product);
 		}
 	}

@@ -16,6 +16,7 @@
 #include <functional> //std::function
 #include <memory> //shared_ptr
 #include <limits> //INT_MIN
+#include <cmath> //abs
 
 //algorithms
 void min_product_subset();
@@ -23,4 +24,5 @@ void max_product_subset();
 void max_sum_k_negations();
 void max_sum_elementMultipliedWithIndex();
 void maxSum_increasingOrderElementsFromNArrays();
+void maxSum_absoluteDifferencesOfConsecutiveElements();
 
