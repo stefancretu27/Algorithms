@@ -54,10 +54,10 @@ namespace max_sum_absolute_diffs
 		for(auto& vec : input_vectors)
 		{
 			//Step 1: sort input vector in ascending order. Use lambda for the sake of syntax. If the conditions is true, std::sort does not interchange elements
-			std::function<bool(int&, int&)> cmp {[](int& lhs, int& rhs)
+			std::function<bool(int&, int&)> cmp_less {[](int& lhs, int& rhs)
 													{return lhs<rhs;}
 												};
-			sort(vec.begin(), vec.end(), cmp);
+			sort(vec.begin(), vec.end(), cmp_less);
 			
 			//Step 2: interleave elements
 			std::vector<int> interleave;

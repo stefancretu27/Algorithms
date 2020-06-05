@@ -13,7 +13,7 @@ namespace maxSumKNeg
 {
 	using namespace std;
 
-	void read_input_vectors(vector<pair<vector<int>, unsigned>>& input_vectors)
+	void read_input_vectors(vector<pair<vector<int>,unsigned>>& input_vectors)
 	{
 		ifstream file;
 		file.open("max_sum_Knegations.txt", ios::in);
