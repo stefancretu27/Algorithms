@@ -23,6 +23,8 @@ int main()
 	maxSum_increasingOrderElementsFromNArrays();
 	std::cout<<std::endl<<"--------Max sum of absolute differences of consecutive elements in circular array. Tip:Max differences is obtained if min and max elements are interleaved (a0 an a1 an-1 etc) --------"<<std::endl;
 	maxSum_absoluteDifferencesOfConsecutiveElements();
-	std::cout<<std::endl<<"--------Max difference of sums of k and N-k array partitions. Tip: PLace min elements on first k positions, if k < array.size()/2. Else, sort descending --------"<<std::endl;
+	std::cout<<std::endl<<"--------Max difference of sums of k and N-k array partitions. Tip: If k <= size()/2, then choose the lowest k elements while the N-k are the greater --------"<<std::endl;
 	maxDiff_sumsOfTwoArrayPartitions();
+	std::cout<<std::endl<<"--------Max height pyramid. Tip: Start building top down using the lowest elements first => sort input ascending --------"<<std::endl;
+	maxHeightPyramid();
 }
