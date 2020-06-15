@@ -6,8 +6,9 @@
  * 						Here the subset cand be the array itself or a single element, or any subset whose size ranges in between these 2 cases.
  * 
  * Approach: There is looked at particular cases of the input array:
- * 						- if it contains only zeroes, or one negataive and the rest are zeroes, the result is 0. The zeroes are skipped from computing the product
+ * 						- if it contains only zeroes, or one negative and the rest are zeroes, the result is 0. The zeroes are skipped from computing the product
  * 						- if it contains an odd number of negatives, the result would be the multiplication of all values divided by the largest negative value
+ * 						- otherwise, the result is multiplication of all numbers, but zeroes
  */ 
 
 namespace max_prod
@@ -87,12 +88,13 @@ namespace max_prod
 			{
 				product = 0;	
 			}
-			//odd number of negative values, the result is divided by max negative, so a positive value is retrieved
+			//odd number of negative values, the result product computed in the loop above is divided by max negative, so a positive value is retrieved. 
 			else if(count_negatives>0 && count_negatives%2 == 1)
 			{
 				product = product/max_negative;
 			}
 			
+			//Otherwise, the result is the product computed in the loop above. 
 			//Store result for the currently processed input vector
 			products.push_back(product);
 		}

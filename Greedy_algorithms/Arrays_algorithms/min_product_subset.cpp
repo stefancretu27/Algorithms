@@ -2,7 +2,7 @@
 
 /* Minimum product subset of an array
  * 
- * Problem description: Given an array of N integer values it is aimed to find the maximum possible product that can be obtained by multiplying the values in any subset of the input array.
+ * Problem description: Given an array of N integer values it is aimed to find the minimum possible product that can be obtained by multiplying the values in any subset of the input array.
  * 						Here the subset cand be the array itself or a single element, or any subset whose size ranges in between these 2 cases.
  * 
  * Approach: There is looked at particular cases of the input array:

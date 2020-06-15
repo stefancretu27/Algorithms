@@ -53,7 +53,7 @@ namespace max_sum_increasing_order_elements
 		//Step 1: sort all vectors in ascending order: O(M*N*LogN) complexity
 		for(auto& vec : input_vectors)
 		{
-			//implemented lambda for the sake fin syntax. If the condition is true, the elemnts are not interchanged, unlike cmp function used by priority_queue
+			//implemented lambda for the sake of syntax. If the condition is true, the elements are not interchanged, unlike cmp function used by priority_queue
 			function<bool(const int&, const int&)> cmp_lambda{[](const int& lhs, const int& rhs)
 																	{return lhs<rhs;}
 															 };

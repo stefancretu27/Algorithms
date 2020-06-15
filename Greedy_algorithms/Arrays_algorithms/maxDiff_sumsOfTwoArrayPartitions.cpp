@@ -7,7 +7,7 @@
  * 
  * Approach: Since the difference has to be maximum, the small values should be isolated from bigger values. Thus, one partition should contain the small values and the other the big values. In order to further 
  * 			 maximize the result, the small values should be placed on the partition with lower length. 
- * 			 Thus, approach would be to srot ascending or descending, as foloows: if k <= array.size()/2, sort ascending ad compute sum of first k elements then sum of the rest N-k. Else, sort descending. 
+ * 			 Thus, approach would be to sort ascending or descending, as follows: if k <= array.size()/2, sort ascending ad compute sum of first k elements then sum of the rest N-k. Else, sort descending. 
  * 			 Another approach would be to sort ascending. Then, if k<=array.size()/2, first k elements are the lower valued ones, with the rest N-k being the higher valued, so compute sums of these 2 subarrays. However,
  * 			 if k > array/size()/2, first N-k values are the lower sized ones, with the rest k being the high valued ones. Basically, instead of sorting distinctly based on k's value , just partition the sorted array
  * 			 appropriately.

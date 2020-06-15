@@ -21,10 +21,14 @@ int main()
 	max_sum_elementMultipliedWithIndex();
 	std::cout<<std::endl<<"--------Max sum of increasing order elements from M arrays. Tip: start with last array. If started with max value from 1st array, very possible not to reach the last vector --------"<<std::endl;
 	maxSum_increasingOrderElementsFromNArrays();
-	std::cout<<std::endl<<"--------Max sum of absolute differences of consecutive elements in circular array. Tip:Max differences is obtained if min and max elements are interleaved (a0 an a1 an-1 etc) --------"<<std::endl;
+	std::cout<<std::endl<<"--------Max sum of absolute differences of consecutive elements in circular array. Tip:Max differences are obtained if min and max elements are interleaved (a0 an a1 an-1 etc) --------"<<std::endl;
 	maxSum_absoluteDifferencesOfConsecutiveElements();
 	std::cout<<std::endl<<"--------Max difference of sums of k and N-k array partitions. Tip: If k <= size()/2, then choose the lowest k elements while the N-k are the greater --------"<<std::endl;
 	maxDiff_sumsOfTwoArrayPartitions();
 	std::cout<<std::endl<<"--------Max height pyramid. Tip: Start building top down using the lowest elements first => sort input ascending --------"<<std::endl;
 	maxHeightPyramid();
+	std::cout<<std::endl<<"--------Min sum of prods of 2 elements from 2 arrays. Tip: Computed default sum and for each default product compute the altered version. Then, substract by max abs difference--------"<<std::endl;
+	minSum_prodsElementsTwoArrays();
+	std::cout<<std::endl<<"--------Min sum of min values from pairs. Tip: Each pair should contain a min value and a max value. Thus, sort ascending and add first size/2 elements--------"<<std::endl;
+	minSumFromMinValueOfPairs();
 }

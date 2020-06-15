@@ -27,4 +27,6 @@ void maxSum_increasingOrderElementsFromNArrays();
 void maxSum_absoluteDifferencesOfConsecutiveElements();
 void maxDiff_sumsOfTwoArrayPartitions();
 void maxHeightPyramid();
+void minSum_prodsElementsTwoArrays();
+void minSumFromMinValueOfPairs();
 
