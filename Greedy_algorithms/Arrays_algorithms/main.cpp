@@ -31,4 +31,6 @@ int main()
 	minSum_prodsElementsTwoArrays();
 	std::cout<<std::endl<<"--------Min sum of min values from pairs. Tip: Each pair should contain a min value and a max value. Thus, sort ascending and add first size/2 elements--------"<<std::endl;
 	minSumFromMinValueOfPairs();
+	std::cout<<std::endl<<"--------Min increments/decrements by 1 to make array non increasing. Tip: First and last element are treated separately. Each of the others is changed based on the previous -------"<<std::endl;
+	minChangesNonIncreasingArray();
 }
