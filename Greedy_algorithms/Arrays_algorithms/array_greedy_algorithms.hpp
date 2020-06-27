@@ -30,4 +30,5 @@ void maxHeightPyramid();
 void minSum_prodsElementsTwoArrays();
 void minSumFromMinValueOfPairs();
 void minChangesNonIncreasingArray();
+void minChangesGCDMultipleOfK();
 

@@ -33,4 +33,6 @@ int main()
 	minSumFromMinValueOfPairs();
 	std::cout<<std::endl<<"--------Min increments/decrements by 1 to make array non increasing. Tip: First and last element are treated separately. Each of the others is changed based on the previous -------"<<std::endl;
 	minChangesNonIncreasingArray();
+	std::cout<<std::endl<<"--------Min increments/decrements by 1 to make array GCD multiple of k. Tip: Treat values smaller than k and higher than k separately. For higher one, apply change min(val%k, k-val&k) -------"<<std::endl;
+	minChangesGCDMultipleOfK();
 }

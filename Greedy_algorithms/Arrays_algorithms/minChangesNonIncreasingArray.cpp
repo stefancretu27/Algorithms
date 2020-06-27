@@ -4,9 +4,12 @@
  * 
  * Problem description: Given an array of N integers it is aimed to find min number of increase/decrease by 1 to make array non increasing.
  * 
- * Approach: The tip here is to treat the first value separately, as it is changed only of the next value is higher than it. Then, the algorithm proceeds further with the rest of values by comparing them to the
- * 			previous and the next, and applying the min change based on the difference between the current and prev, and current and next. Last value is also treated separately, a sit is only compared to the previous.
- * 			The Greedy approach comes from the fact that, besides the last value, each value is compared to the next and the changes is applied to the current value (as early as possible).
+ * Approach: The tip here is to treat the first value separately, as it is changed only of the next value is higher than it. Also, the last value is treated separately, bot only after al previous values had been changed.
+ * 			It is compared just to the second to last value. 
+ * 			The values in between are changed within a loop, as follows: 
+ * 				- if the current value is higher than its prev, just make it equal to prev, regardless of the next value. So, at any given moment, the current and the prev respect the non increasing requirement
+ * 				- if the current value is lower than prev and lower than next, make it equal to minimum between prev and next
+ * 			The Greedy approach comes from the fact that the change is applied to the current value (as early as possible).
  */ 
 
 namespace minInc_Dec_nonIncreasingArray
@@ -84,12 +87,14 @@ namespace minInc_Dec_nonIncreasingArray
 			//Step 2: change values in between front and back
 			for(std::vector<int>::size_type idx{1}, dim = vec.size()-1; idx < dim; ++idx)
 			{
-				if(vec[idx] > vec[idx -1] && vec[idx] > vec[idx+1])
+				//if current is higher than prev, make it equal to prev
+				if(vec[idx] > vec[idx -1])
 				{
-					no_of_changes += abs(vec[idx-1] - vec[idx]);
+					no_of_changes += vec[idx] - vec[idx-1];
 					vec[idx] = vec[idx-1];
 				}
-				if(vec[idx] < vec[idx -1] && vec[idx] < vec[idx+1])
+				//if current is lower than prev (this respects the requirement) and lower than next, change it to min of prev and next
+				else if(vec[idx] < vec[idx -1] && vec[idx] < vec[idx+1])
 				{
 					int min_val = min(vec[idx-1], vec[idx+1]);
 					no_of_changes += abs(min_val-vec[idx]);
