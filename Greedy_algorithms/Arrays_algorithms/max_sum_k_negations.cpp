@@ -6,7 +6,8 @@
  * 						Here, k is an integer such that 0<k<N.
  * 
  * Approach: As the array's element can have negative, positive and zero values, the maximum sum can be obtained if the first minimum k elements are negated. Concretely, the zeroes will stay as they are while
- * 			the negative numbers are turned positive. If the number of negatives is < k, then the zeroes are considered. If still k values were not reached, then the smallest positives are turned negative.
+ * 			the negative numbers are turned positive. If the number of negatives is < k, then the zeroes are considered. If still k values were not reached, then the smallest positives are turned negative. Thus, sort
+ * 			array in ascending order and engate first k values.
  */ 
 
 namespace maxSumKNeg

@@ -31,4 +31,5 @@ void minSum_prodsElementsTwoArrays();
 void minSumFromMinValueOfPairs();
 void minChangesNonIncreasingArray();
 void minChangesGCDMultipleOfK();
+void min_max_lexicographic_number();
 

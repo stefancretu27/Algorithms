@@ -35,4 +35,6 @@ int main()
 	minChangesNonIncreasingArray();
 	std::cout<<std::endl<<"--------Min increments/decrements by 1 to make array GCD multiple of k. Tip: Treat values smaller than k and higher than k separately. For higher one, apply change min(val%k, k-val&k) -------"<<std::endl;
 	minChangesGCDMultipleOfK();
+	std::cout<<std::endl<<"--------Min/max lexicograph. numbers from array digits with k swaps. Tip: As k can be > arr.size(), adjust the upper bound for the searching subarray to min(arr.size(), idx+k+1)-------"<<std::endl;
+	min_max_lexicographic_number();
 }
